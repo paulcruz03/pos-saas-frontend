@@ -1,14 +1,11 @@
-import {
-  Link,
-  Outlet,
-} from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { Link, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-export default function MainLayout() {
+export default function BlankLayout() {
   return (
     <>
       <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
+        <Link to="/home" className="[&.active]:font-bold">
           Home
         </Link>{' '}
         <Link to="/about" className="[&.active]:font-bold">
@@ -19,5 +16,5 @@ export default function MainLayout() {
       <Outlet />
       <TanStackRouterDevtools />
     </>
-  )
+  );
 }

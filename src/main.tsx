@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from '@tanstack/react-router'
 import './index.css'
 import { router } from './router'
+import { ConfigProvider } from 'antd'
+import { antdTheme } from './theme'
 
 declare module '@tanstack/react-router' {
   interface Register {
@@ -15,7 +17,9 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <ConfigProvider theme={antdTheme}>
+        <RouterProvider router={router} />
+      </ConfigProvider>
     </StrictMode>,
   )
 }
