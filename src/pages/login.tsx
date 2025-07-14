@@ -4,8 +4,7 @@ import styles from '../styles/components/login-form.module.scss';
 
 export default function LoginPage() {
   return (
-    <Flex
-      className={styles.login} gap="middle" vertical>
+    <Flex className={styles.login} gap="middle" vertical>
       <LoginForm />
     </Flex>
   );

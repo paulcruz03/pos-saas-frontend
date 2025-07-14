@@ -16,6 +16,7 @@ export function LoginForm() {
       onFinish={onFinish}
       autoComplete="off"
     >
+      <h1>Login</h1>
       <Form.Item
         name="username"
         rules={[{ required: true, message: 'Please input your Username!' }]}
