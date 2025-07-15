@@ -1,4 +1,4 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { Outlet, useRouter } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import { SettingOutlined, BarChartOutlined, ProductOutlined, UserOutlined, ShopOutlined } from '@ant-design/icons';
@@ -7,15 +7,14 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import React from "react";
 import type { MenuItems } from "../types";
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Content, Sider, Footer } = Layout;
 
 export default function BlankLayout() {
-  const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-    key,
-    label: `nav ${key}`,
-  }));
-
   // parent
+  const router = useRouter();
+  // const routerState = useRouterState();
+
+  // const currentPath = routerState.location.pathname;
   const sideItems: MenuItems[] = [
     {
       name: 'Dashboard',
@@ -35,32 +34,32 @@ export default function BlankLayout() {
     { 
       name: 'Products',
       icon: React.createElement(ProductOutlined),
-      route: '/option3',
+      route: '/option4',
       children: [
-        { name: 'Restock', route: '/option3/add-product' },
-        { name: 'Manage Products', route: '/option3/product-list' },
+        { name: 'Restock', route: '/option4/add-product' },
+        { name: 'Manage Products', route: '/option4/product-list' },
       ] 
     },
     {
       name: 'Settings',
       icon: React.createElement(SettingOutlined),
-      route: '/option3',
+      route: '/option5',
       children: [
-        { name: 'Admin', route: '/option3/settings/general' },
-        { name: 'Configuration', route: '/option3/settings/security' },
+        { name: 'Admin', route: '/option5/settings/general' },
+        { name: 'Configuration', route: '/option5/settings/security' },
       ]
     },
   ]
 
   const menuItems: MenuProps['items'] = sideItems.map(
-    (menu: MenuItems, index) => {
+    (menu: MenuItems) => {
       return {
-        key: `menu${index}`,
+        key: menu.route,
         icon: menu.icon,
         label: menu.name,
-        children: menu.children?.map((subMenu, j) => {
+        children: menu.children?.map((subMenu) => {
           return {
-            key: `menu${index}` + `sub${j}`,
+            key: subMenu.route,
             label: subMenu.name,
             icon: subMenu.icon,
           };
@@ -68,7 +67,6 @@ export default function BlankLayout() {
       };
     },
   );
-
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -82,10 +80,11 @@ export default function BlankLayout() {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
             items={menuItems}
+            onClick={({ key }) => {
+              router.navigate({ to: key });
+            }}
           />
         </Sider>
         <Layout>
