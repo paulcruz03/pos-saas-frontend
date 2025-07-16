@@ -12,33 +12,27 @@ const { Content, Sider, Footer } = Layout;
 export default function BlankLayout() {
   // parent
   const router = useRouter();
-  // const routerState = useRouterState();
 
-  // const currentPath = routerState.location.pathname;
   const sideItems: MenuItems[] = [
     {
       name: 'Dashboard',
       icon: React.createElement(BarChartOutlined),
-      route: '/option1'
+      route: '/home'
     },
     {
       name: 'Customers',
       icon: React.createElement(UserOutlined),
-      route: '/option2'
+      route: '/customers'
     },
     {
       name: 'Orders',
       icon: React.createElement(ShopOutlined),
-      route: '/option3'
+      route: '/orders'
     },
     { 
       name: 'Products',
       icon: React.createElement(ProductOutlined),
-      route: '/option4',
-      children: [
-        { name: 'Restock', route: '/option4/add-product' },
-        { name: 'Manage Products', route: '/option4/product-list' },
-      ] 
+      route: '/products'
     },
     {
       name: 'Settings',
@@ -82,9 +76,7 @@ export default function BlankLayout() {
             mode="inline"
             style={{ height: '100%', borderRight: 0 }}
             items={menuItems}
-            onClick={({ key }) => {
-              router.navigate({ to: key });
-            }}
+            onClick={({ key }) => router.navigate({ to: key })}
           />
         </Sider>
         <Layout>

@@ -16,13 +16,6 @@ const indexRoute = createRoute({
   getParentRoute: () => main,
   path: 'home',
   component: await import('./pages/index').then(mod => mod.default),
-  
-})
-
-const aboutRoute = createRoute({
-  getParentRoute: () => main,
-  path: 'about',
-  component: await import('./pages/about').then(mod => mod.default),
 })
 
 const orderRoute = createRoute({
@@ -37,6 +30,18 @@ const productsRoute = createRoute({
   component: await import('./pages/products').then(mod => mod.default),
 })
 
+const productDetailRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'products-detail/$productId',
+  component: await import('./pages/productDetail').then(mod => mod.default),
+})
+
+const customersRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'customers',
+  component: await import('./pages/customers').then(mod => mod.default),
+})
+
 const loginRoute = createRoute({
   getParentRoute: () => root,
   component: await import('./pages/login').then(mod => mod.default),
@@ -46,9 +51,10 @@ const loginRoute = createRoute({
 const routeTree = root.addChildren([
   main.addChildren([
     indexRoute,
-    aboutRoute,
     orderRoute,
-    productsRoute
+    productsRoute,
+    customersRoute,
+    productDetailRoute
   ]),
   loginRoute
 ])
