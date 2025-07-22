@@ -1,16 +1,15 @@
-import { Space, Table, Tag } from 'antd';
+import { Space, Table } from 'antd';
 import type { TableProps } from 'antd';
+import { useEffect, useState } from 'react';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+import { getCustomers } from '../lib/data';
+import type { Customers } from '../types';
 
 export default function CustomersPage() {
-  const columns: TableProps<DataType>['columns'] = [
+  const [data, setData] = useState<Customers[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
+
+  const columns: TableProps<Customers>['columns'] = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -18,34 +17,19 @@ export default function CustomersPage() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      title: 'Created At',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
     },
     {
       title: 'Action',
@@ -59,34 +43,20 @@ export default function CustomersPage() {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+  useEffect(() => {
+      const fetchCustomers = async () => {
+        const productsData = await getCustomers();
+        setData(productsData);
+        setDataLoading(false);
+      };
+      
+      fetchCustomers();
+    }, []);
 
   return (
     <div>
       <h1>Customers Page</h1>
-      <Table<DataType> columns={columns} dataSource={data} />
+      <Table<Customers> columns={columns} dataSource={data} loading={dataLoading} />
     </div>
   );
 }

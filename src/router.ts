@@ -1,4 +1,5 @@
 import {
+  createMemoryHistory,
   createRootRoute,
   createRoute,
   createRouter,
@@ -27,19 +28,37 @@ const orderRoute = createRoute({
 const productsRoute = createRoute({
   getParentRoute: () => main,
   path: 'products',
-  component: await import('./pages/products').then(mod => mod.default),
+  component: await import('./pages/product/list').then(mod => mod.default),
 })
 
 const productDetailRoute = createRoute({
   getParentRoute: () => main,
-  path: 'products-detail/$productId',
-  component: await import('./pages/productDetail').then(mod => mod.default),
+  path: 'product-detail/$productId',
+  component: await import('./pages/product/detail').then(mod => mod.default),
 })
 
 const customersRoute = createRoute({
   getParentRoute: () => main,
   path: 'customers',
   component: await import('./pages/customers').then(mod => mod.default),
+})
+
+const manageDevicesRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'settings/devices',
+  component: await import('./pages/settings/devices').then(mod => mod.default),
+})
+
+const manageUserRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'settings/users',
+  component: await import('./pages/settings/users').then(mod => mod.default),
+})
+
+const configRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'settings/config',
+  component: await import('./pages/settings/config').then(mod => mod.default),
 })
 
 const loginRoute = createRoute({
@@ -54,7 +73,10 @@ const routeTree = root.addChildren([
     orderRoute,
     productsRoute,
     customersRoute,
-    productDetailRoute
+    productDetailRoute,
+    manageDevicesRoute,
+    manageUserRoute,
+    configRoute
   ]),
   loginRoute
 ])

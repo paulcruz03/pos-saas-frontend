@@ -37,10 +37,10 @@ export default function BlankLayout() {
     {
       name: 'Settings',
       icon: React.createElement(SettingOutlined),
-      route: '/option5',
       children: [
-        { name: 'Admin', route: '/option5/settings/general' },
-        { name: 'Configuration', route: '/option5/settings/security' },
+        { name: 'Manage Devices', route: '/settings/devices' },
+        { name: 'Manage Accounts', route: '/settings/users' },
+        { name: 'Configuration', route: '/settings/config' },
       ]
     },
   ]
@@ -48,12 +48,12 @@ export default function BlankLayout() {
   const menuItems: MenuProps['items'] = sideItems.map(
     (menu: MenuItems) => {
       return {
-        key: menu.route,
+        key: menu.route ?? menu.name.toLowerCase( ),
         icon: menu.icon,
         label: menu.name,
         children: menu.children?.map((subMenu) => {
           return {
-            key: subMenu.route,
+            key: subMenu.route ?? menu.name.toLowerCase( ),
             label: subMenu.name,
             icon: subMenu.icon,
           };

@@ -1,16 +1,11 @@
 import { Button, Space, Table, Tag, Modal, Form, Input, InputNumber } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
-import styles from '../styles/components/pages/product.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+import styles from '../../styles/components/pages/product.module.scss';
+import type { Products } from '../../types';
+import { getProducts } from '../../lib/data';
 
 type FieldType = {
   name?: string;
@@ -24,8 +19,10 @@ type FieldType = {
 export default function ProductsPage() {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [data, setData] = useState<Products[]>([]);
+  const [dataLoading, setDataLoading] = useState(true);
   
-  const columns: TableProps<DataType>['columns'] = [
+  const columns: TableProps<Products>['columns'] = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -33,32 +30,29 @@ export default function ProductsPage() {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
+      title: 'Cost',
+      key: 'cost',
+      dataIndex: 'cost',
+    },
+    {
+      title: 'Status',
+      key: 'isActive',
+      dataIndex: 'isActive',
+      render: (_, { isActive }) => (
         <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
+          <Tag color={isActive ? 'green' : 'volcano'}>
+            {isActive ? 'Active' : 'Inactive'}
+          </Tag>
         </>
       ),
     },
@@ -74,29 +68,15 @@ export default function ProductsPage() {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productsData = await getProducts();
+      setData(productsData);
+      setDataLoading(false);
+    };
+    
+    fetchProducts();
+  }, []);
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -122,7 +102,7 @@ export default function ProductsPage() {
             Add Button
           </Button>
         </div>
-        <Table<DataType> columns={columns} dataSource={data} />
+        <Table<Products> columns={columns} dataSource={data} loading={dataLoading} />
 
         <Modal
           title="Title"
