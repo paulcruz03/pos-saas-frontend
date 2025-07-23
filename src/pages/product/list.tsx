@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
 import { useState, useEffect } from 'react';
 
-import styles from '../../styles/components/pages/product.module.scss';
+import styles from '../../styles/components/shared.module.scss';
 import type { Products } from '../../types';
 import { getProducts } from '../../lib/data';
 import AddProductModal from '../../components/add-product-form';
@@ -87,7 +87,7 @@ export default function ProductsPage() {
 
   return (
     <>
-      <div className={styles.productPage}>
+      <div className={styles.page}>
         <div className={styles.header}>
           <span>
             <h1>Products Page</h1>

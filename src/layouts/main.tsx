@@ -93,6 +93,8 @@ export default function BlankLayout() {
               style={{
                 padding: 24,
                 margin: 0,
+                position: 'relative',
+                overflow: 'hidden',
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
                 minHeight: 'calc(100vh - 64px - 48px)', // Adjust for header and breadcrumb height

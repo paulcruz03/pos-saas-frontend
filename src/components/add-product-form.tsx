@@ -21,88 +21,84 @@ export default function AddProductModal({ open, setOpen }: { open: boolean; setO
     }, 2000);
   };
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   return (
     <>
       <Modal
-          title="Title"
-          open={open}
-          onOk={handleOk}
-          confirmLoading={confirmLoading}
-          onCancel={handleCancel}
+        title="Title"
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={() => setOpen(false)}
+      >
+        <Form
+          name="basic"
+          layout='vertical'
+          autoComplete="off"
         >
-          <Form
-            name="basic"
-            layout='vertical'
-            autoComplete="off"
+          <Form.Item<FieldType>
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'Please input your name!' }]}
           >
+            <Input />
+          </Form.Item>
+
+          <Form.Item<FieldType>
+            label="Description"
+            name="description"
+          >
+            <Input />
+          </Form.Item>
+
+          <div className='flex gap-10'>
             <Form.Item<FieldType>
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: 'Please input your name!' }]}
+              label="Price"
+              name="price"
+              required
             >
-              <Input />
+              <InputNumber
+                prefix="₱"
+                defaultValue={100}
+                controls
+                required
+              />
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Description"
-              name="description"
+              label="Cost"
+              name="cost"
+              required
             >
-              <Input />
+              <InputNumber
+                prefix="₱"
+                defaultValue={100}
+                controls
+                required
+              />
             </Form.Item>
-
-            <div className='flex gap-10'>
-              <Form.Item<FieldType>
-                label="Price"
-                name="price"
-                required
-              >
-                <InputNumber
-                  prefix="₱"
-                  defaultValue={100}
-                  controls
-                  required
-                />
-              </Form.Item>
-
-              <Form.Item<FieldType>
-                label="Cost"
-                name="cost"
-                required
-              >
-                <InputNumber
-                  prefix="₱"
-                  defaultValue={100}
-                  controls
-                  required
-                />
-              </Form.Item>
-
-              <Form.Item<FieldType>
-                label="Stock"
-                name="stock"
-                required
-              >
-                <InputNumber
-                  defaultValue={1}
-                  controls
-                  required
-                />
-              </Form.Item>
-            </div>
 
             <Form.Item<FieldType>
-              label="SKU"
-              name="sku"
+              label="Stock"
+              name="stock"
+              required
             >
-              <Input />
+              <InputNumber
+                defaultValue={1}
+                controls
+                required
+              />
             </Form.Item>
+          </div>
 
-          </Form>
-        </Modal>
+          <Form.Item<FieldType>
+            label="SKU"
+            name="sku"
+          >
+            <Input />
+          </Form.Item>
+
+        </Form>
+      </Modal>
     </>
   )
 }

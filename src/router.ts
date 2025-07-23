@@ -25,6 +25,18 @@ const orderRoute = createRoute({
   component: lazyRouteComponent(() => import('./pages/order/list')),
 })
 
+const createOrderRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'transactions/orders/create',
+  component: lazyRouteComponent(() => import('./pages/order/create')),
+})
+
+const viewOrderRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'transactions/orders/$orderId',
+  component: lazyRouteComponent(() => import('./pages/order/detail')),
+})
+
 const refundRoute = createRoute({
   getParentRoute: () => main,
   path: 'transactions/refunds',
@@ -39,7 +51,7 @@ const productsRoute = createRoute({
 
 const productDetailRoute = createRoute({
   getParentRoute: () => main,
-  path: 'product-detail/$productId',
+  path: 'products/$productId',
   component: lazyRouteComponent(() => import('./pages/product/detail')),
 })
 
@@ -83,7 +95,9 @@ const routeTree = root.addChildren([
     productDetailRoute,
     manageDevicesRoute,
     manageUserRoute,
-    configRoute
+    configRoute,
+    createOrderRoute,
+    viewOrderRoute
   ]),
   loginRoute
 ])

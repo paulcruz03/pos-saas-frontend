@@ -1,11 +1,15 @@
 import { Button, Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import { useEffect, useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
 
+import styles from '../../styles/components/shared.module.scss';
 import type { Orders } from '../../types'
 import { getOrders } from '../../lib/data';
+import { useRouter } from '@tanstack/react-router';
 
 export default function OrderPage() {
+  const router = useRouter();
   const [data, setData] = useState<Orders[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
@@ -73,8 +77,16 @@ export default function OrderPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Order Page</h1>
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <span>
+          <h1>Order Page</h1>
+        </span>
+        <Button onClick={() => router.navigate({ to: '/transactions/orders/create' })} type="primary" size="large" icon={<PlusOutlined />}>
+          Add Button
+        </Button>
+      </div>
+
       <Table<Orders> rowKey="id" columns={columns} dataSource={data} loading={dataLoading} />
     </div>
   );
