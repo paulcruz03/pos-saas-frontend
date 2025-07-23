@@ -56,7 +56,7 @@ export default function CustomersPage() {
   return (
     <div>
       <h1>Customers Page</h1>
-      <Table<Customers> columns={columns} dataSource={data} loading={dataLoading} />
+      <Table<Customers> rowKey="id" columns={columns} dataSource={data} loading={dataLoading} />
     </div>
   );
 }

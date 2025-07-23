@@ -1,4 +1,4 @@
-import { Button, Space, Table, Tag, Modal, Form, Input, InputNumber } from 'antd';
+import { Button, Table, Tag } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
 import { useState, useEffect } from 'react';
@@ -6,28 +6,20 @@ import { useState, useEffect } from 'react';
 import styles from '../../styles/components/pages/product.module.scss';
 import type { Products } from '../../types';
 import { getProducts } from '../../lib/data';
-
-type FieldType = {
-  name?: string;
-  description?: string;
-  price?: string;
-  cost?: string;
-  sku?: string;
-  stock?: string;
-};
+import AddProductModal from '../../components/add-product-form';
+import useWindowDimensions from '../../hooks/screen';
 
 export default function ProductsPage() {
   const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [data, setData] = useState<Products[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
+  const { width } = useWindowDimensions();
   
   const columns: TableProps<Products>['columns'] = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
     },
     {
       title: 'Description',
@@ -45,27 +37,42 @@ export default function ProductsPage() {
       dataIndex: 'cost',
     },
     {
+      title: 'Stock',
+      key: 'stock',
+      dataIndex: 'stock',
+    },
+    {
       title: 'Status',
       key: 'isActive',
       dataIndex: 'isActive',
-      render: (_, { isActive }) => (
+      render: (_, { id, isActive }) => (
         <>
-          <Tag color={isActive ? 'green' : 'volcano'}>
+          <Tag key={`${id}-isActive`} color={isActive ? 'green' : 'volcano'}>
             {isActive ? 'Active' : 'Inactive'}
           </Tag>
         </>
       ),
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (_, { id }) => (
+    //     <Space key={`${id}-action`} size="middle">
+    //       <Button color="default" variant="solid">
+    //         View
+    //       </Button>
+    //       <Button color="default" variant="solid">
+    //         Restock
+    //       </Button>
+    //       <Button color="default" variant="solid">
+    //         Update Price
+    //       </Button>
+    //       <Button color="default" variant="solid">
+    //         Delete
+    //       </Button>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   useEffect(() => {
@@ -77,18 +84,6 @@ export default function ProductsPage() {
     
     fetchProducts();
   }, []);
-
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
 
   return (
     <>
@@ -102,84 +97,15 @@ export default function ProductsPage() {
             Add Button
           </Button>
         </div>
-        <Table<Products> columns={columns} dataSource={data} loading={dataLoading} />
+        <Table<Products>
+          rowKey="id"
+          columns={columns}
+          dataSource={data}
+          loading={dataLoading}
+          scroll={{ y: 55 * 5, x: (width ?? 768) < 768 ? 400 : undefined }}
+        />
 
-        <Modal
-          title="Title"
-          open={open}
-          onOk={handleOk}
-          confirmLoading={confirmLoading}
-          onCancel={handleCancel}
-        >
-          <Form
-            name="basic"
-            layout='vertical'
-            autoComplete="off"
-          >
-            <Form.Item<FieldType>
-              label="Name"
-              name="name"
-              rules={[{ required: true, message: 'Please input your name!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item<FieldType>
-              label="Description"
-              name="description"
-            >
-              <Input />
-            </Form.Item>
-
-            <div className='flex gap-10'>
-              <Form.Item<FieldType>
-                label="Price"
-                name="price"
-                required
-              >
-                <InputNumber
-                  prefix="₱"
-                  defaultValue={100}
-                  controls
-                  required
-                />
-              </Form.Item>
-
-              <Form.Item<FieldType>
-                label="Cost"
-                name="cost"
-                required
-              >
-                <InputNumber
-                  prefix="₱"
-                  defaultValue={100}
-                  controls
-                  required
-                />
-              </Form.Item>
-
-              <Form.Item<FieldType>
-                label="Stock"
-                name="stock"
-                required
-              >
-                <InputNumber
-                  defaultValue={1}
-                  controls
-                  required
-                />
-              </Form.Item>
-            </div>
-
-            <Form.Item<FieldType>
-              label="SKU"
-              name="sku"
-            >
-              <Input />
-            </Form.Item>
-
-          </Form>
-        </Modal>
+        <AddProductModal open={open} setOpen={setOpen} />
       </div>
     </>
   );

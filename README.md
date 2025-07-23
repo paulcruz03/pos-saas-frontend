@@ -1,69 +1,84 @@
-# React + TypeScript + Vite
+# 🧾 POS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for the Point of Sales (POS) system. It manages the UI for orders, customers, refunds, inventory, and user roles. Authentication is handled via **Firebase Auth**, and the app is structured to integrate with a backend API once it's ready.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Tech Stack
 
-## Expanding the ESLint configuration
+- **React + TypeScript**
+- **Vite**
+- **Firebase Authentication**
+- **Tailwind CSS**
+- **Fetch API**
+- **TanStack Router**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📁 Project Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/       → Reusable UI components 
+├── pages/            → Route-level views
+├── layout/           → App Layout 
+├── lib/
+│   ├── data.ts       → Temporary mock data until backend is ready
+│   ├── firebase.ts   → Firebase app + auth setup
+│   └── fetcher.ts    → Wrapper for fetch requests
+├── hooks/            → Custom React hooks (auth, API logic)
+├── router.ts         → TanStack Router configuration
+├── types.ts          → TypeScript interfaces for models (products, orders, etc.)
+├── assets/           → Static files (images, icons, etc.)
+├── styles/           → SCSS Modules for the targeted components
+└── main.tsx          → Vite app bootstrap
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔐 Firebase Auth Setup
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Authentication is configured using Firebase with email/password sign-in.
+
+Ensure your Firebase project is created and Auth is enabled in the console.
+
+---
+
+## 🛠️ Environment Variables
+
+Place your Firebase config in the `.env` file using this format:
+
+### `.env`
+
 ```
+
+VITE\_FIREBASE\_CONFIG\_JSON='{
+"apiKey": "YOUR\_API\_KEY",
+"authDomain": "your-app.firebaseapp.com",
+"projectId": "your-project-id",
+"storageBucket": "your-project.appspot.com",
+"messagingSenderId": "sender-id",
+"appId": "your-app-id"
+}'
+
+````
+
+In your code, parse it like this:
+
+```ts
+const firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CONFIG_JSON);
+````
+
+---
+
+## ▶️ Getting Started
+
+```bash
+npm install      
+npm run dev      
+```
+
+## 📄 License
+
+MIT — free to use, modify, and distribute.
+

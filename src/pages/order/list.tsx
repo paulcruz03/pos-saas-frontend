@@ -1,9 +1,9 @@
-import { Table, Tag } from 'antd';
+import { Button, Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import { useEffect, useState } from 'react';
 
-import type { Orders } from '../types'
-import { getOrders } from '../lib/data';
+import type { Orders } from '../../types'
+import { getOrders } from '../../lib/data';
 
 export default function OrderPage() {
   const [data, setData] = useState<Orders[]>([]);
@@ -45,7 +45,21 @@ export default function OrderPage() {
           {status.toUpperCase()}
         </Tag>
       ),
-    }
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: () => (
+        <Space size="middle">
+          <Button color="default" variant="solid">
+            View
+          </Button>
+          <Button color="default" variant="solid">
+            Refund
+          </Button>
+        </Space>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -61,7 +75,7 @@ export default function OrderPage() {
   return (
     <div>
       <h1>Order Page</h1>
-      <Table<Orders> columns={columns} dataSource={data} loading={dataLoading} />
+      <Table<Orders> rowKey="id" columns={columns} dataSource={data} loading={dataLoading} />
     </div>
   );
 }

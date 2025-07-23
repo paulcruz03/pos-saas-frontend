@@ -25,14 +25,17 @@ export default function BlankLayout() {
       route: '/customers'
     },
     {
-      name: 'Orders',
+      name: 'Transactions',
       icon: React.createElement(ShopOutlined),
-      route: '/orders'
+      children: [
+        { name: 'Order', route: '/transactions/orders' },
+        { name: 'Refunds', route: '/transactions/refunds' },
+      ]
     },
     { 
       name: 'Products',
       icon: React.createElement(ProductOutlined),
-      route: '/products'
+      route: '/products',
     },
     {
       name: 'Settings',
@@ -97,7 +100,7 @@ export default function BlankLayout() {
             >
               <Outlet />
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
+            <Footer style={{ textAlign: 'center', paddingBottom: 0, paddingTop: 12 }}>
               Ant Design ©{new Date().getFullYear()} Created by Ant UED
             </Footer>
           </Layout>

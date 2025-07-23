@@ -1,69 +1,75 @@
 import {
-  createMemoryHistory,
   createRootRoute,
   createRoute,
   createRouter,
+  lazyRouteComponent,
 } from '@tanstack/react-router'
 
 const root = createRootRoute()
 
 const main = createRoute({
   getParentRoute: () => root,
-  component: await import('./layouts/main').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./layouts/main')),
   path: '/',
 })
 
 const indexRoute = createRoute({
   getParentRoute: () => main,
   path: 'home',
-  component: await import('./pages/index').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/index')),
 })
 
 const orderRoute = createRoute({
   getParentRoute: () => main,
-  path: 'orders',
-  component: await import('./pages/orders').then(mod => mod.default),
+  path: 'transactions/orders',
+  component: lazyRouteComponent(() => import('./pages/order/list')),
+})
+
+const refundRoute = createRoute({
+  getParentRoute: () => main,
+  path: 'transactions/refunds',
+  component: lazyRouteComponent(() => import('./pages/order/refunds')),
 })
 
 const productsRoute = createRoute({
   getParentRoute: () => main,
   path: 'products',
-  component: await import('./pages/product/list').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/product/list')),
 })
 
 const productDetailRoute = createRoute({
   getParentRoute: () => main,
   path: 'product-detail/$productId',
-  component: await import('./pages/product/detail').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/product/detail')),
 })
 
 const customersRoute = createRoute({
   getParentRoute: () => main,
   path: 'customers',
-  component: await import('./pages/customers').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/customers')),
 })
 
 const manageDevicesRoute = createRoute({
   getParentRoute: () => main,
   path: 'settings/devices',
-  component: await import('./pages/settings/devices').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/settings/devices')),
 })
 
 const manageUserRoute = createRoute({
   getParentRoute: () => main,
   path: 'settings/users',
-  component: await import('./pages/settings/users').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/settings/users')),
 })
 
 const configRoute = createRoute({
   getParentRoute: () => main,
   path: 'settings/config',
-  component: await import('./pages/settings/config').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/settings/config')),
 })
 
 const loginRoute = createRoute({
   getParentRoute: () => root,
-  component: await import('./pages/login').then(mod => mod.default),
+  component: lazyRouteComponent(() => import('./pages/login')),
   path: 'login',
 })
 
@@ -71,6 +77,7 @@ const routeTree = root.addChildren([
   main.addChildren([
     indexRoute,
     orderRoute,
+    refundRoute,
     productsRoute,
     customersRoute,
     productDetailRoute,
