@@ -33,26 +33,6 @@ export default function CreateOrderPage() {
       key: 'stock',
       dataIndex: 'stock',
     }
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (_, { id }) => (
-    //     <Space key={`${id}-action`} size="middle">
-    //       <Button color="default" variant="solid">
-    //         View
-    //       </Button>
-    //       <Button color="default" variant="solid">
-    //         Restock
-    //       </Button>
-    //       <Button color="default" variant="solid">
-    //         Update Price
-    //       </Button>
-    //       <Button color="default" variant="solid">
-    //         Delete
-    //       </Button>
-    //     </Space>
-    //   ),
-    // },
   ];
   
   useEffect(() => {
@@ -74,7 +54,7 @@ export default function CreateOrderPage() {
         </span>
         <Button onClick={() => setOpenOrderDetails(true)} type="primary">
           View order details
-          <Tag className="m-0 p-0" color="red">{productOrders.length}</Tag>
+          {productOrders.length > 0 && <Tag className="m-0 p-0" color="red">{productOrders.length}</Tag>}
         </Button>
       </div>
       <Divider size="middle" />

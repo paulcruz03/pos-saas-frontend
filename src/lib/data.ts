@@ -1,4 +1,4 @@
-import type { Customers, OrderItems, Orders, Products } from "../types";
+import type { Customers, OrderItems, Orders, Products, Users } from "../types";
 
 const products: Products[] = [
   {
@@ -123,6 +123,27 @@ const orderItems: OrderItems[] = [
   }
 ];
 
+export const sampleUsers: Users[] = [
+  {
+    id: 1,
+    name: 'Alice Mendoza',
+    email: 'alice@posapp.com',
+    role: 'admin',
+  },
+  {
+    id: 2,
+    name: 'Ben Santos',
+    email: 'ben@posapp.com',
+    role: 'agent',
+  },
+  {
+    id: 2,
+    name: 'Cathy Reyes',
+    email: 'cathy@posapp.com',
+    role: 'teller',
+  },
+];
+
 // Exported functions (simulate fetching from backend)
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 export async function getProducts(): Promise<Products[]> {
@@ -143,4 +164,18 @@ export async function getOrders(): Promise<Orders[]> {
 export async function getOrderItems(): Promise<OrderItems[]> {
   await delay(300);
   return orderItems;
+}
+
+export async function getUsers(): Promise<Users[]> {
+  await delay(300);
+  return sampleUsers;
+}
+
+export async function getDevices(): Promise<Devices[]> {
+  await delay(300);
+  return [
+    { id: 1, imei: '123456789012345', user_id: 1 },
+    { id: 2, imei: '987654321098765', user_id: 2 },
+    { id: 3, imei: '112233445566778', user_id: null },
+  ];
 }

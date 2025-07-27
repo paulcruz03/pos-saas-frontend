@@ -68,8 +68,8 @@ export default function OrderPage() {
 
   useEffect(() => {
       const fetchOrders = async () => {
-        const productsData = await getOrders();
-        setData(productsData);
+        const ordersData = await getOrders();
+        setData(ordersData);
         setDataLoading(false);
       };
       

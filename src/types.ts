@@ -41,3 +41,17 @@ export interface Orders {
   createdAt: string; // ISO timestamp
   items?: OrderItems[]; // Optional nested items
 }
+
+export interface Users {
+  id: number;
+  name: string;
+  email: string;
+  device_id?: string | null;
+  role: 'admin' | 'agent' | 'teller';
+}
+
+export interface Devices {
+  id: number;
+  imei: string;
+  user_id?: number | null;
+}
